@@ -1,8 +1,11 @@
-
 export const getMovies = async () => {
-  const res = await fetch("/api/movies", {
+  const clientUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : process.env.CLIENT_URL;
+  const res = await fetch(`${clientUrl}/api/movies`, {
     method: "GET",
   });
-  const data = await res.json()
-  return data
+  const data = await res.json();
+  return data;
 };
