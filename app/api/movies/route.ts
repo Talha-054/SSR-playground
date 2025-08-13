@@ -1,4 +1,5 @@
-import { getDb } from "@/config/db";
+import { getDb } from "../../../config/db";
+
 
 export async function GET(request: Request) {
   const db = await getDb();

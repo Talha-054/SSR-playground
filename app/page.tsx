@@ -1,4 +1,5 @@
-import MoviesSection from "@/components/MoviesSection";
+import MoviesSection from "../components/MoviesSection";
+
 
 export default function Home() {
   return (
