@@ -1,11 +1,12 @@
+import { getDb } from "../config/db";
+
 export const getMovies = async () => {
-  const clientUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : process.env.CLIENT_URL;
-  const res = await fetch(`${clientUrl}/api/movies`, {
-    method: "GET",
-  });
-  const data = await res.json();
-  return data;
+  const db = await getDb();
+  const movies = await db.collection("movies").find({}).limit(10).toArray();
+  return movies.map((m) => ({
+    _id: m._id.toString(),
+    title: m.title,
+    plot: m.plot,
+    year: m.year,
+  }));
 };
