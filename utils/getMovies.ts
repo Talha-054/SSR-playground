@@ -1,8 +1,6 @@
 import { getDb } from "../config/db";
 
 export const getMovies = async () => {
-  console.log("❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌");
-
   const db = await getDb();
   const movies = await db.collection("embedded_movies").find({}).limit(10).toArray();
   return movies.map((m) => ({
