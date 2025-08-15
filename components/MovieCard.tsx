@@ -1,4 +1,6 @@
+import * as React from "react";
 import Image from "next/image";
+import { Card, CardMedia, CardContent, Typography, Box, Chip, Stack } from "@mui/material";
 
 export interface Movie {
   _id: string;
@@ -12,40 +14,52 @@ export interface Movie {
 
 export default function MovieCard({ movie }: { movie: Movie }) {
   return (
-    <div className="bg-[--var(foreground)] rounded-xl shadow hover:shadow-lg transition overflow-hidden flex flex-col">
+    <Card
+      sx={{
+        maxWidth: 345,
+        borderRadius: 2,
+        boxShadow: 3,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {movie.poster && (
-        <Image
-          src={movie.poster}
-          width={200}
-          height={200}
-          alt={movie.title}
-          className="h-80 w-full object-cover"
-        />
+        <CardMedia>
+          <Box sx={{ position: "relative", width: "100%", height: 200 }}>
+            <Image
+              src={movie.poster}
+              alt={movie.title}
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </Box>
+        </CardMedia>
       )}
-      <div className="p-4 flex-1 flex flex-col">
-        <h2 className="text-lg font-bold mb-2">{movie.title}</h2>
-        <p className="text-gray-600 text-sm flex-1">
+
+      <CardContent>
+        <Typography variant="h6" component="div" gutterBottom>
+          {movie.title}
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary" gutterBottom>
           {movie.plot?.length > 120
-            ? movie?.plot.slice(0, 120) + "..."
+            ? movie.plot.slice(0, 120) + "..."
             : movie.plot}
-        </p>
+        </Typography>
+
         {movie.genres && (
-          <div className="flex flex-wrap gap-1 mt-3">
+          <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", mb: 1 }}>
             {movie.genres.map((genre) => (
-              <span
-                key={genre}
-                className="bg-[--var(foreground)]  text-white px-2 py-0.5 text-xs rounded-full"
-              >
-                {genre}
-              </span>
+              <Chip key={genre} label={genre} size="small" color="primary" />
             ))}
-          </div>
+          </Stack>
         )}
-        <div className="mt-3 text-sm text-gray-500 flex justify-between">
-          <span>⭐ {movie.imdb?.rating ?? "N/A"}</span>
-          <span>📅 {movie.year ?? "Unknown"}</span>
-        </div>
-      </div>
-    </div>
+
+        <Stack direction="row" spacing={2}>
+          <Typography variant="body2">⭐ {movie.imdb?.rating ?? "N/A"}</Typography>
+          <Typography variant="body2">📅 {movie.year ?? "Unknown"}</Typography>
+        </Stack>
+      </CardContent>
+    </Card>
   );
 }
